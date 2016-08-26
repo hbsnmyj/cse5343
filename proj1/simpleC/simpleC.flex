@@ -105,28 +105,54 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
   /* Punctuators: TODO - add all punctuators from Section 6.4.6 except
   for the last eight punctuators */
 
+  "<<="                          { return symbol(LSHIFTEQUAL); }
+  ">>="                          { return symbol(RSHIFTEQUAL); }
+  "..."                          { return symbol(ELLIPSES); }
+  "*="                           { return symbol(STAREQUAL); }
+  "/="                           { return symbol(DIVEQUAL); }
+  "%="                           { return symbol(MODEQUAL); }
+  "+="                           { return symbol(PLUSEQUAL); }
+  "-="                           { return symbol(MINUSEQUAL); }
+  "++"                           { return symbol(PLUSPLUS); }
+  "--"                           { return symbol(MINUSMINUS); }
+  "=="                           { return symbol(EQUALEQUAL); }
+  "->"                           { return symbol(ARROW); }
+  "<<"                           { return symbol(LSHIFT); }
+  ">>"                           { return symbol(RSHIFT); }
+  "<="                           { return symbol(LESSEQUAL); }
+  ">="                           { return symbol(GREATEREQUAL); }
+  "&="                           { return symbol(BITANDEQUAL); }
+  "|="                           { return symbol(BITOREQUAL); }
+  "^="                           { return symbol(BITXOREQUAL); }
+  "!="                           { return symbol(NOTEQUAL); }
+  "&&"                           { return symbol(AND); }
+  "||"                           { return symbol(OR); }
+  "##"                           { return symbol(SHARPSHARP); }
   "("                            { return symbol(LPAREN); }
   ")"                            { return symbol(RPAREN); }
   "{"                            { return symbol(LBRACE); }
   "}"                            { return symbol(RBRACE); }
   "["                            { return symbol(LBRACK); }
   "]"                            { return symbol(RBRACK); }
-  "."                            { return symbol(POINT); }
-  "->"                           { return symbol(ARROW); }
-  ";"                            { return symbol(SEMICOLON); }
-  ","                            { return symbol(COMMA); }
-  "="                            { return symbol(ASSGN); }
-  "<"                            { return symbol(LT); }
-  "++"                           { return symbol(PLUSPLUS); }
-  "--"                           { return symbol(MINUSMINUS); }
-  "&"                            { return symbol(AMPERSAND); }
+  "&"                            { return symbol(BITAND); }
   "*"                            { return symbol(STAR); }
   "+"                            { return symbol(PLUS); }
   "-"                            { return symbol(MINUS); }
   "~"                            { return symbol(TILDE); }
   "/"                            { return symbol(DIV); }
-  "%"                            { return symbol(PERCENT); }
-  "!"                            { return symbol(EXCLAIMNATION); }
+  "%"                            { return symbol(MOD); }
+  "!"                            { return symbol(NOT); }
+  "."                            { return symbol(DOT); }
+  ","                            { return symbol(COMMA); }
+  "="                            { return symbol(ASSGN); }
+  "<"                            { return symbol(LESS); }
+  ">"                            { return symbol(GREATER); }
+  "|"                            { return symbol(BITOR); }
+  "^"                            { return symbol(BITXOR); }
+  "?"                            { return symbol(QUESTION); }
+  ":"                            { return symbol(COLON); }
+  ";"                            { return symbol(SEMICOLON); }
+  "#"                            { return symbol(SHARP); }
 
   /* Integer literals: TODO - for any such literal, the token type
    * should be INTEGER_LITERAL, as shown below. The attribute value
