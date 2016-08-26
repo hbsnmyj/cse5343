@@ -65,12 +65,43 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
 
   /* Keywords: TODO - add all keywords from Section 6.4.1 */
 
-  "double"                       { return symbol(DOUBLE); }
+  "auto"                         { return symbol(AUTO); }
+  "break"                         { return symbol(BREAK); }
+  "case"                         { return symbol(CASE); }
+  "char"                         { return symbol(CHAR); }
+  "const"                         { return symbol(CONST); }
+  "continue"                         { return symbol(CONTINUE);
+  "default"                         { return symbol(DEFAULT);
+  "do"                         { return symbol(DO);
+  "double"                         { return symbol(DOUBLE);
+  "else"                         { return symbol(ELSE);
+  "enum"                         { return symbol(ENUM);
+  "extern"                         { return symbol(EXTERN);
+  "float"                         { return symbol(FLOAT);
   "for"                          { return symbol(FOR); }
+  "goto"                          { return symbol(GOTO); }
+  "if"                          { return symbol(IF); }
+  "inline"                          { return symbol(INLINE); }
   "int"                          { return symbol(INT); }
+  "long"                          { return symbol(LONG); }
+  "register"                          { return symbol(REGISTER); }
   "return"                       { return symbol(RETURN); }
+  "short"                       { return symbol(SHORT); }
+  "signed"                       { return symbol(SIGNED); }
+  "sizeof"                       { return symbol(SIZEOF); }
+  "static"                       { return symbol(STATIC); }
+  "struct"                       { return symbol(STRUCT); }
+  "switch"                       { return symbol(SWITCH); }
+  "typedef"                       { return symbol(TYPEDEF); }
+  "union"                       { return symbol(UNION); }
+  "unsigned"                       { return symbol(UNSIGNED); }
   "void"                         { return symbol(VOID); }
-  
+  "volatile"                         { return symbol(VOLATILE); }
+  "while"                         { return symbol(WHILE); }
+  "_Bool"                         { return symbol(_BOOL); }
+  "_Complex"                         { return symbol(_COMPLEX); }
+  "_Imaginary"                         { return symbol(_IMAGINARY); }
+
   /* Punctuators: TODO - add all punctuators from Section 6.4.6 except
   for the last eight punctuators */
 
@@ -90,7 +121,6 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
   "/"                            { return symbol(DIV); }
   "*"                            { return symbol(STAR); }
 
-  
   /* Integer literals: TODO - for any such literal, the token type
    * should be INTEGER_LITERAL, as shown below. The attribute value
    * should be either a Java Integer object (for values that are not
