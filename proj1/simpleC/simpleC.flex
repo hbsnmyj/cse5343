@@ -37,8 +37,11 @@ WhiteSpace = [ \t\f\r\n]
  * 6.4.2.1.
  */
 
+NonDigit = [a-zA-Z_]
+Digit = [0-9]
+
 /* Replace this placeholder with your own definitions */
-Identifier = [a-z]
+Identifier = {NonDigit}({Digit}|{NonDigit})*
 
 /* Integer literals: TODO - handle integer literals as described in
  * Section 6.4.4.1 of the ANSI C document. For simplicity, do NOT
@@ -47,7 +50,11 @@ Identifier = [a-z]
  */
 
 /* Replace this placeholder with your own definitions */
-DecIntegerLiteral = 0 | [1-9][0-9]*
+DecInt = 0 | [1-9]{Digit}*
+DecIntegerLiteral = -?{DecInt}
+DecLongLiteral = -?{DecInt}L
+DecUnsignedLiteral ={DecInt}U
+DecUnsignedLongLiteral ={DecInt}UL
 
 /* Floating point literals: TODO - handle floating point literals as 
  * described in Section 6.4.4.2 of the ANSI C document. For
@@ -127,7 +134,7 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
   "!="                           { return symbol(NOTEQUAL); }
   "&&"                           { return symbol(AND); }
   "||"                           { return symbol(OR); }
-  "##"                           { return symbol(SHARPSHARP); }
+/*  "##"                           { return symbol(SHARPSHARP); } */
   "("                            { return symbol(LPAREN); }
   ")"                            { return symbol(RPAREN); }
   "{"                            { return symbol(LBRACE); }
@@ -152,7 +159,7 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
   "?"                            { return symbol(QUESTION); }
   ":"                            { return symbol(COLON); }
   ";"                            { return symbol(SEMICOLON); }
-  "#"                            { return symbol(SHARP); }
+/*  "#"                            { return symbol(SHARP); } */
 
   /* Integer literals: TODO - for any such literal, the token type
    * should be INTEGER_LITERAL, as shown below. The attribute value
@@ -166,6 +173,9 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
 
   /* replace this placeholder with your own definitions */
   {DecIntegerLiteral}            { return symbol(INTEGER_LITERAL, new Integer(yytext())); }
+  {DecLongLiteral}               { return symbol(LONG_LITERAL, new Long(yytext().substring(0, yytext().length() - 1))); }
+  {DecUnsignedLiteral}               { return symbol(UNSIGNED_LITERAL, new Integer(yytext().substring(0, yytext().length() - 1))); }
+  {DecUnsignedLongLiteral}               { return symbol(UNSIGNED_LITERAL, new Long(yytext().substring(0, yytext().length() - 2))); }
 
   /* Floating-point literals: TODO - for any such literal, the token
    * type should be FLOATING_POINT_LITERAL, as shown below. The

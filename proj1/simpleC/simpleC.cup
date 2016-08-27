@@ -36,6 +36,9 @@ terminal COMMA, ASSGN, LESS, GREATER, BITOR, BITXOR, QUESTION, COLON, SEMICOLON,
 
 
 terminal java.lang.Number INTEGER_LITERAL;
+terminal java.lang.Number LONG_LITERAL;
+terminal java.lang.Number UNSIGNED_LITERAL;
+terminal java.lang.Number UNSIGNED_LONG_LITERAL;
 terminal java.lang.Number FLOATING_POINT_LITERAL;
 terminal java.lang.String IDENTIFIER; 
 non terminal fake;
