@@ -55,6 +55,17 @@ DecIntegerLiteral = -?{DecInt}
 DecLongLiteral = -?{DecInt}L
 DecUnsignedLiteral ={DecInt}U
 DecUnsignedLongLiteral ={DecInt}UL
+OctInt = 0[1-7][0-7]*
+OctIntegerLiteral = -?{OctInt}
+OctLongLiteral = -?{OctInt}L
+OctUnsignedLiteral ={OctInt}U
+OctUnsignedLongLiteral ={OctInt}UL
+HexInt = 0x[1-9A-F][0-9A-F]*
+HexIntegerLiteral = -?{HexInt}
+HexLongLiteral = -?{HexInt}L
+HexUnsignedLiteral ={HexInt}U
+HexUnsignedLongLiteral ={HexInt}UL
+
 
 /* Floating point literals: TODO - handle floating point literals as 
  * described in Section 6.4.4.2 of the ANSI C document. For
@@ -64,7 +75,13 @@ DecUnsignedLongLiteral ={DecInt}UL
  */        
 
 /* Replace this placeholder with your own definitions */
-DoubleLiteral  = [0-9]+ \. [0-9]* 
+ExponentPart = [eE]("+"|"-")?[0-9]+
+FloatSuffix = [fF]
+DecFractionalFloat = [0-9]*"."[0-9]+{ExponentPart}?{FloatSuffix}?
+DecIntExponentFloat = [0-9]+{ExponentPart}{FloatSuffix}?
+BinaryExponentPart = [pP]("+"|"-")?[01]+
+HexFractionalFloat = 0[xX][1-9A-F]*"."[1-9A-F]{BinaryExponentPart}?{FloatSuffix}?
+HexIntExponentFloat = 0[xX][1-9A-F]+{BinaryExponentPart}{FloatSuffix}?
 
 %%
 
@@ -176,6 +193,15 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
   {DecLongLiteral}               { return symbol(LONG_LITERAL, new Long(yytext().substring(0, yytext().length() - 1))); }
   {DecUnsignedLiteral}               { return symbol(UNSIGNED_LITERAL, new Integer(yytext().substring(0, yytext().length() - 1))); }
   {DecUnsignedLongLiteral}               { return symbol(UNSIGNED_LITERAL, new Long(yytext().substring(0, yytext().length() - 2))); }
+  {OctIntegerLiteral}            { return symbol(INTEGER_LITERAL, Integer.parseInt(yytext().substring(1, yytext().length()), 8)); }
+  {OctLongLiteral}            { return symbol(LONG_LITERAL, Long.parseLong(yytext().substring(1, yytext().length()), 8)); }
+  {OctUnsignedLiteral}            { return symbol(UNSIGNED_LITERAL, Integer.parseInt(yytext().substring(1, yytext().length()), 8)); }
+  {OctUnsignedLongLiteral}            { return symbol(UNSIGNED_LONG_LITERAL, Long.parseLong(yytext().substring(1, yytext().length()), 8)); }
+/*  {HexIntegerLiteral}            { return symbol(INTEGER_LITERAL, Integer.parse(yytext())); }
+  {HexLongLiteral}               { return symbol(LONG_LITERAL, new Long(yytext().substring(0, yytext().length() - 1))); }
+  {HexUnsignedLiteral}               { return symbol(UNSIGNED_LITERAL, new Integer(yytext().substring(0, yytext().length() - 1))); }
+  {HexUnsignedLongLiteral}               { return symbol(UNSIGNED_LITERAL, new Long(yytext().substring(0, yytext().length() - 2))); }
+*/
 
   /* Floating-point literals: TODO - for any such literal, the token
    * type should be FLOATING_POINT_LITERAL, as shown below. The
@@ -189,13 +215,16 @@ DoubleLiteral  = [0-9]+ \. [0-9]*
    */
 
   /* replace this placeholder with your own definitions */
-  {DoubleLiteral}                { return symbol(FLOATING_POINT_LITERAL, new Double(yytext())); }
-  
+  {DecFractionalFloat}           { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
+  {DecIntExponentFloat}             { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
+  {HexFractionalFloat}           { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
+  {HexIntExponentFloat}           { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
+
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
 
-  /* identifiers */ 
-  {Identifier}                   { return symbol(IDENTIFIER, yytext()); }  
+  /* identifiers */
+  {Identifier}                   { return symbol(IDENTIFIER, yytext()); }
 }
 
 /* error fallback */
