@@ -22,6 +22,46 @@ import java_cup.runtime.*;
   private Symbol symbol(int type, Object value) {
     return new MySymbol(type, yyline+1, yycolumn+1, value);
   }
+
+  private Number parseFloatLiteral(String value, int base, Boolean isDouble) {
+    String sep;
+    int dotPos = value.indexOf('.');
+    int sepPos = 0;
+    double intPart;
+    double fracPart;
+    double expPart;
+    int baseExp = (base == 16) ? 2 : 10;
+    if(base == 10) {
+      sepPos = value.indexOf('e');
+      if(sepPos== -1)
+        sepPos = value.indexOf('E');
+    } else if(base == 16) {
+      sepPos = value.indexOf('p');
+      if(sepPos== -1)
+        sepPos = value.indexOf('P');
+    }
+    if(dotPos == -1) { /* xxxxExxxx or xxxxPxxxx */
+      intPart = 0;
+      String floatStr = value.substring(0, sepPos);
+      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, floatStr.length());
+      expPart = Integer.parseInt(value.substring(sepPos + 1), base);
+    } else if (sepPos == -1) { //xxxx.xxxx
+      intPart = Integer.parseInt(value.substring(0, dotPos), base);
+      String floatStr = value.substring(0, sepPos);
+      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, floatStr.length());
+      expPart = 1;
+    } else {
+      intPart = Integer.parseInt(value.substring(0, dotPos), base);
+      String floatStr = value.substring(0, sepPos);
+      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, floatStr.length());
+      expPart = Integer.parseInt(value.substring(sepPos + 1), base);
+    }
+    Double result = (intPart + fracPart) * Math.pow(baseExp, expPart);
+    if(isDouble)
+      return new Double(result);
+    else
+      return new Float(result);
+  }
 %}
 
 /* White spaces */
@@ -197,11 +237,10 @@ HexIntExponentFloat = 0[xX][1-9A-F]+{BinaryExponentPart}{FloatSuffix}?
   {OctLongLiteral}            { return symbol(LONG_LITERAL, Long.parseLong(yytext().substring(1, yytext().length()), 8)); }
   {OctUnsignedLiteral}            { return symbol(UNSIGNED_LITERAL, Integer.parseInt(yytext().substring(1, yytext().length()), 8)); }
   {OctUnsignedLongLiteral}            { return symbol(UNSIGNED_LONG_LITERAL, Long.parseLong(yytext().substring(1, yytext().length()), 8)); }
-/*  {HexIntegerLiteral}            { return symbol(INTEGER_LITERAL, Integer.parse(yytext())); }
-  {HexLongLiteral}               { return symbol(LONG_LITERAL, new Long(yytext().substring(0, yytext().length() - 1))); }
-  {HexUnsignedLiteral}               { return symbol(UNSIGNED_LITERAL, new Integer(yytext().substring(0, yytext().length() - 1))); }
-  {HexUnsignedLongLiteral}               { return symbol(UNSIGNED_LITERAL, new Long(yytext().substring(0, yytext().length() - 2))); }
-*/
+  {HexIntegerLiteral}            { return symbol(INTEGER_LITERAL, Integer.parseInt(yytext().substring(2, yytext().length()), 16)); }
+  {HexLongLiteral}               { return symbol(LONG_LITERAL, Long.parseLong(yytext().substring(2, yytext().length() - 1), 16)); }
+  {HexUnsignedLiteral}               { return symbol(UNSIGNED_LITERAL, Integer.parseInt(yytext().substring(2, yytext().length()), 16)); }
+  {HexUnsignedLongLiteral}               { return symbol(UNSIGNED_LITERAL, Long.parseLong(yytext().substring(2, yytext().length() - 1), 16)); }
 
   /* Floating-point literals: TODO - for any such literal, the token
    * type should be FLOATING_POINT_LITERAL, as shown below. The
