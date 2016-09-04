@@ -100,20 +100,20 @@ Identifier = {NonDigit}({Digit}|{NonDigit})*
 
 /* Replace this placeholder with your own definitions */
 DecInt = 0 | [1-9]{Digit}*
-DecIntegerLiteral = -?{DecInt}
-DecLongLiteral = -?{DecInt}L
+DecIntegerLiteral = {DecInt}
+DecLongLiteral = {DecInt}L
 DecUnsignedLiteral ={DecInt}U
 DecUnsignedLongLiteral ={DecInt}UL
 OctInt = 0[1-7][0-7]*
-OctIntegerLiteral = -?{OctInt}
-OctLongLiteral = -?{OctInt}L
+OctIntegerLiteral = {OctInt}
+OctLongLiteral = {OctInt}L
 OctUnsignedLiteral ={OctInt}U
 OctUnsignedLongLiteral ={OctInt}UL
 HexInt = 0x[1-9A-F][0-9A-F]*
-HexIntegerLiteral = -?{HexInt}
-HexLongLiteral = -?{HexInt}L
-HexUnsignedLiteral ={HexInt}U
-HexUnsignedLongLiteral ={HexInt}UL
+HexIntegerLiteral = {HexInt}
+HexLongLiteral = {HexInt}L
+HexUnsignedLiteral = {HexInt}U
+HexUnsignedLongLiteral = {HexInt}UL
 
 
 /* Floating point literals: TODO - handle floating point literals as 
