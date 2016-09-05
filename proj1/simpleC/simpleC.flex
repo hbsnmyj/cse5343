@@ -60,7 +60,10 @@ import java_cup.runtime.*;
       fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, -floatStr.length());
       expPart = 0;
     } else {
-      intPart = Integer.parseInt(value.substring(0, dotPos), base);
+      if(dotPos != 0)
+        intPart = Integer.parseInt(value.substring(0, dotPos), base);
+      else
+        intPart = 0;
       String floatStr = value.substring(dotPos + 1, sepPos);
       fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, -floatStr.length());
       expPart = Integer.parseInt(value.substring(sepPos + 1), base);
@@ -269,7 +272,7 @@ HexIntExponentFloat = 0[xX][1-9A-F]+{BinaryExponentPart}{FloatSuffix}?
                                    return symbol(FLOATING_POINT_LITERAL,
                                        parseFloatLiteral(yytext(), 10));
                                  }
-  {DecIntExponentFloat}             { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
+  {DecIntExponentFloat}             { return symbol(FLOATING_POINT_LITERAL, parseFloatLiteral(yytext(), 10)); }
   {HexFractionalFloat}           { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
   {HexIntExponentFloat}           { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
 
