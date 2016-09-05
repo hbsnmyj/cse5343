@@ -52,17 +52,17 @@ import java_cup.runtime.*;
     if(dotPos == -1) { /* xxxxExxxx or xxxxPxxxx */
       intPart = 0;
       String floatStr = value.substring(0, sepPos);
-      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, floatStr.length());
+      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, -floatStr.length());
       expPart = Integer.parseInt(value.substring(sepPos + 1), base);
     } else if (sepPos == -1) { //xxxx.xxxx
       intPart = Integer.parseInt(value.substring(0, dotPos), base);
       String floatStr = value.substring(dotPos+1, value.length());
-      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, floatStr.length());
-      expPart = 1;
+      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, -floatStr.length());
+      expPart = 0;
     } else {
       intPart = Integer.parseInt(value.substring(0, dotPos), base);
-      String floatStr = value.substring(0, sepPos);
-      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, floatStr.length());
+      String floatStr = value.substring(dotPos + 1, sepPos);
+      fracPart = Integer.parseInt(floatStr, base) * Math.pow(base, -floatStr.length());
       expPart = Integer.parseInt(value.substring(sepPos + 1), base);
     }
     Double result = (intPart + fracPart) * Math.pow(baseExp, expPart);
