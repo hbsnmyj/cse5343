@@ -99,21 +99,23 @@ Identifier = {NonDigit}({Digit}|{NonDigit})*
  */
 
 /* Replace this placeholder with your own definitions */
+ULSuffix = ([Uu][Ll]|[Ll][Uu])
+
 DecInt = 0 | [1-9]{Digit}*
 DecIntegerLiteral = {DecInt}
-DecLongLiteral = {DecInt}L
-DecUnsignedLiteral ={DecInt}U
-DecUnsignedLongLiteral ={DecInt}UL
+DecLongLiteral = {DecInt}[Ll]
+DecUnsignedLiteral ={DecInt}[Uu]
+DecUnsignedLongLiteral ={DecInt}{ULSuffix}
 OctInt = 0[1-7][0-7]*
 OctIntegerLiteral = {OctInt}
-OctLongLiteral = {OctInt}L
-OctUnsignedLiteral ={OctInt}U
-OctUnsignedLongLiteral ={OctInt}UL
+OctLongLiteral = {OctInt}[Ll]
+OctUnsignedLiteral ={OctInt}[Uu]
+OctUnsignedLongLiteral ={OctInt}{ULSuffix}
 HexInt = 0x[1-9A-F][0-9A-F]*
 HexIntegerLiteral = {HexInt}
-HexLongLiteral = {HexInt}L
-HexUnsignedLiteral = {HexInt}U
-HexUnsignedLongLiteral = {HexInt}UL
+HexLongLiteral = {HexInt}[Ll]
+HexUnsignedLiteral = {HexInt}[Uu]
+HexUnsignedLongLiteral = {HexInt}{ULSuffix}
 
 
 /* Floating point literals: TODO - handle floating point literals as 
