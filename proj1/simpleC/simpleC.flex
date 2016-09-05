@@ -273,8 +273,8 @@ HexIntExponentFloat = 0[xX][1-9A-F]+{BinaryExponentPart}{FloatSuffix}?
                                        parseFloatLiteral(yytext(), 10));
                                  }
   {DecIntExponentFloat}             { return symbol(FLOATING_POINT_LITERAL, parseFloatLiteral(yytext(), 10)); }
-  {HexFractionalFloat}           { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
-  {HexIntExponentFloat}           { return symbol(FLOATING_POINT_LITERAL, new Double(0)); }
+  {HexFractionalFloat}           { return symbol(FLOATING_POINT_LITERAL, parseFloatLiteral(yytext().substring(2), 16)); }
+  {HexIntExponentFloat}           { return symbol(FLOATING_POINT_LITERAL, parseFloatLiteral(yytext().substring(2), 16)); }
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
